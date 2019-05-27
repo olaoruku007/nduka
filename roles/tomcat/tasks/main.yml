@@ -1,0 +1,83 @@
+
+---
+    - name: install java 8
+      yum: name=java-1.8.0-openjdk.x86_64 state=latest
+      become: yes
+
+    - name: add group "tomcat"
+      group: name=tomcat
+
+    - name: add user "tomcat"
+      user: name=tomcat group=tomcat home=/home/tomcat createhome=no
+
+    - name: Creates directory
+      file: path=/data state=directory
+
+    - name: Download tomcat
+      get_url:
+        url: "{{ download_source }}"
+        dest: /tmp
+        mode: 0755
+
+    #- name: Remount /tmp with exec
+     # shell: mount -o remount, exec /tmp
+
+    #- name: Extract tar.gz into /tmp
+     # unarchive:
+       # src: /tmp/apache-tomcat-8.5.33.tar.gz
+       # dest: /data
+       #extra_opts: [--strip-components=1]
+
+    - name: Move foo to bar
+      command: tar xvf "/tmp/{{ pkg_name }}" -C /data
+      
+    #- name: Removing
+     # file:
+     #   path: "{{ item }}"
+      #  state: absent
+     # with_items:
+       # - /data/tomcat
+
+    #- name: Move apache-tomcat to tomcat
+     # command: mv "/data/{{ pkg_dir }}" /data/tomcat
+     
+    - name: check if dir exist
+      stat: 
+        path: /data/tomcat
+      register: st4
+      
+    - name: Move apache-tomcat to tomcat
+      command: mv "/data/{{ pkg_dir }}" /data/tomcat
+      when: st4.stat.exists == False
+
+    - name: Change ownership of Tomcat installation
+      file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat mode=775 state=directory recurse=yes
+
+    - stat: path=/data/tomcat/conf/tomcat-users.xml
+      register: st1
+    - copy: src={{ CONFIG_DIR }}/tomcat-users.xml dest={{ CATALINA_HOME }}/tomcat/conf/
+      when: st1.stat.exists == True
+
+    - stat: path=/usr/lib/systemd/system/tomcat.service
+      register: st2
+    - copy: src={{ CONFIG_DIR }}/tomcat.service dest=/usr/lib/systemd/system/
+      when: st2.stat.exists == False
+
+
+    #- name: 'Start Tomcat service'
+     # service: name=tomcat state=started sleep=60 enabled=yes
+
+    - name: Change ownership of Tomcat installation
+      file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat state=directory recurse=yes
+      
+    - name: Change ownership of Tomcat installation
+      file: path={{ service_config }}/tomcat.service owner=root group=root mode=0755
+      
+    - name: reload systemctl
+      command: systemctl daemon-reload
+
+    - name: Enable systemctl
+      command: systemctl enable tomcat
+
+    - name: Start systemctl
+      command: systemctl start tomcat
