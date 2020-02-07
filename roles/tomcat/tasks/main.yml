@@ -17,7 +17,7 @@
       get_url:
         url: "{{ download_source }}"
         dest: /tmp
-        mode: 0755
+        mode: 0777
 
     #- name: Remount /tmp with exec
      # shell: mount -o remount, exec /tmp
@@ -29,7 +29,10 @@
        #extra_opts: [--strip-components=1]
 
     - name: Move foo to bar
-      command: tar xvf "/tmp/{{ pkg_name }}" -C /data
+      unarchive:
+        src: /tmp/{{ pkg_name }}
+        dest: /data
+        remote_src: yes
       
     #- name: Removing
      # file:

@@ -4,13 +4,13 @@ tomcat_source: /tmp
 
 CATALINA_HOME: /data
 
-download_source: http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.5.41/bin/apache-tomcat-8.5.41.tar.gz
+download_source: https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.tar.gz
 
 service_config: /usr/lib/systemd/system
 
-pkg_name: apache-tomcat-8.5.41.tar.gz
+pkg_name: apache-tomcat-8.0.32.tar.gz
 
-pkg_dir: apache-tomcat-8.5.41
+pkg_dir: apache-tomcat-8.0.32
 
 CONFIG_DIR: roles/tomcat/files
 CONFIG_DIR1: /tmp
