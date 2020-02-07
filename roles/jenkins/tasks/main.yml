@@ -1,0 +1,12 @@
+
+---
+    - name: Download jenkins
+      get_url:
+        url: "{{ jenkins_source }}"
+        dest: /data/tomcat/webapps
+
+    - name: Stop systemctl
+      command: systemctl stop tomcat
+
+    - name: Start systemctl
+      command: systemctl start tomcat
