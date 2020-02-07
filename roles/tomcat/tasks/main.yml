@@ -19,30 +19,11 @@
         dest: /tmp
         mode: 0777
 
-    #- name: Remount /tmp with exec
-     # shell: mount -o remount, exec /tmp
-
-    #- name: Extract tar.gz into /tmp
-     # unarchive:
-       # src: /tmp/apache-tomcat-8.5.33.tar.gz
-       # dest: /data
-       #extra_opts: [--strip-components=1]
-
     - name: Move foo to bar
       unarchive:
         src: /tmp/{{ pkg_name }}
         dest: /data
         remote_src: yes
-      
-    #- name: Removing
-     # file:
-     #   path: "{{ item }}"
-      #  state: absent
-     # with_items:
-       # - /data/tomcat
-
-    #- name: Move apache-tomcat to tomcat
-     # command: mv "/data/{{ pkg_dir }}" /data/tomcat
      
     - name: check if dir exist
       stat: 
@@ -65,10 +46,6 @@
       register: st2
     - copy: src={{ CONFIG_DIR }}/tomcat.service dest=/usr/lib/systemd/system/
       when: st2.stat.exists == False
-
-
-    #- name: 'Start Tomcat service'
-     # service: name=tomcat state=started sleep=60 enabled=yes
 
     - name: Change ownership of Tomcat installation
       file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat state=directory recurse=yes
