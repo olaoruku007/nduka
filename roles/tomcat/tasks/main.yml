@@ -8,7 +8,7 @@
       group: name=tomcat
 
     - name: add user "tomcat"
-      user: name=tomcat group=tomcat home=/home/tomcat createhome=no
+      user: name=tomcat group=tomcat home=/home/tomcat createhome=yes
 
     - name: Creates directory
       file: path=/data state=directory
