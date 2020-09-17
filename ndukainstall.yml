@@ -1,1 +1,8 @@
-
+#Tomcat Installation & Configuration
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+     - tomcat
+     - jenkins
