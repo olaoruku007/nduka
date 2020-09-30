@@ -1,5 +1,5 @@
 - hosts: dev
-  remote_user: root
+  remote_user: ansible
   tasks:
     - name: create file called musa.txt
       file:
