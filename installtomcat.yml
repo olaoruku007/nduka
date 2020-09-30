@@ -2,7 +2,6 @@
 ---
 - hosts: dev
   remote_user: ansible
-  become: yes
   roles:
      - tomcat
      - jenkins
