@@ -4,12 +4,12 @@
   tasks:
     - name: create file called musa.txt
       file:
-        name: /opt/musa.txt
+        name: /home/ansible/musa.txt
         state: touch
         mode: 0755
 
     - name: create directory samlimited
       file:
-        name: /opt/samlimited
+        name: /home/ansible/samlimited
         state: directory
         mode: 0755
