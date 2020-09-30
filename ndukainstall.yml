@@ -1,8 +1,14 @@
-#Tomcat Installation & Configuration
----
-- hosts: all
+- hosts: dev
   become: yes
-  become_method: sudo
-  roles:
-     - tomcat
-     - jenkins
+  tasks:
+    - name: create file called musa.txt
+      file:
+        name: /home/ansible/musa.txt
+        state: touch
+        mode: 0755
+
+    - name: create directory samlimited
+      file:
+        name: /home/ansible/samlimited
+        state: directory
+        mode: 0755
