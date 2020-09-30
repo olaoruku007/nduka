@@ -4,10 +4,10 @@
       yum: name=java-1.8.0-openjdk.x86_64 state=latest
       become: yes
 
-    - name: add group "tomcat"
-      group: name=tomcat
+    - name: add group tomcat
+      group: name=tomcat state=present
 
-    - name: add user "tomcat"
+    - name: add user tomcat
       user: name=tomcat group=tomcat home=/home/tomcat createhome=yes
 
     - name: Creates directory
