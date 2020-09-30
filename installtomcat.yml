@@ -2,7 +2,8 @@
 ---
 - hosts: dev
   remote_user: ansible
-  sudo: yes
+  become: yes
+  become_method: sudo 
   roles:
      - tomcat
      - jenkins
