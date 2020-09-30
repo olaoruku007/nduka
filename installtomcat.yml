@@ -1,6 +1,7 @@
 #Tomcat Installation & Configuration
 ---
 - hosts: dev
+  remote_user: ansible
   become: yes
   roles:
      - tomcat
