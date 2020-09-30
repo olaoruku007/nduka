@@ -1,7 +1,8 @@
 #Tomcat Installation & Configuration
 ---
 - hosts: dev
-  remote_user: root
+  remote_user: ansible
+  sudo: yes
   roles:
      - tomcat
      - jenkins
