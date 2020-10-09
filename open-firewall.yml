@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: crete file
+      command: touch /opt/danielmoney.txt
+      
+    - firewalld:
+        port: 8080/tcp
+        permanent: yes
+        state: enabled
+        zone: public
+
+    - name: reload firewalld
+      command: firewall-cmd --reload

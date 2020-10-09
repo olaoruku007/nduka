@@ -1,63 +1,48 @@
 
 ---
-    - name: install java 8
-      yum: name=java-1.8.0-openjdk.x86_64 state=latest
-      become: yes
+  - name: install java 8
+    yum: name=java-1.8.0-openjdk.x86_64 state=latest 
 
-    - name: add group tomcat
-      group: name=tomcat state=present
+  - name: Create tomcat group
+    group: name=tomcat state=present
 
-    - name: add user tomcat
-      user: name=tomcat group=tomcat home=/home/tomcat createhome=yes
+  - name: Create tomcat user
+    user: name=tomcat group=wheel state=present
 
-    - name: Creates directory
-      file: path=/data state=directory
+  - name: Create tomcat directory in root
+    file: path=/tomcat owner=tomcat group=tomcat state=directory mode=0755
 
-    - name: Download tomcat
-      get_url:
-        url: "{{ download_source }}"
-        dest: /tmp
-        mode: 0777
+  - name: download tomcat
+    get_url: 
+      url: "{{ tomcat8_source }}" 
+      dest: /tomcat
 
-    - name: Move foo to bar
-      unarchive:
-        src: /tmp/{{ pkg_name }}
-        dest: /data
-        remote_src: yes
-     
-    - name: check if dir exist
-      stat: 
-        path: /data/tomcat
-      register: st4
-      
-    - name: Move apache-tomcat to tomcat
-      command: mv "/data/{{ pkg_dir }}" /data/tomcat
-      when: st4.stat.exists == False
+  - name: Extract apache-tomcat-8.0.32.tar.gz
+    unarchive:
+      src: "/tomcat/{{ tomcat8_pkg }}"
+      dest: /tomcat/
+      remote_src: yes
 
-    - name: Change ownership of Tomcat installation
-      file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat mode=775 state=directory recurse=yes
+  - name: download jenkins
+    get_url: url={{ jenkins_pkg }} dest=/tomcat/apache-tomcat-8.0.32/webapps
 
-    - stat: path=/data/tomcat/conf/tomcat-users.xml
-      register: st1
-    - copy: src={{ CONFIG_DIR }}/tomcat-users.xml dest={{ CATALINA_HOME }}/tomcat/conf/
-      when: st1.stat.exists == True
+  - name: copy tomcat-users.xml to tomcat_home/conf
+    copy: src=roles/tomcat/files/tomcat-users.xml dest=/tomcat/apache-tomcat-8.0.32/conf owner=tomcat group=tomcat mode=0755
 
-    - stat: path=/usr/lib/systemd/system/tomcat.service
-      register: st2
-    - copy: src={{ CONFIG_DIR }}/tomcat.service dest=/usr/lib/systemd/system/
-      when: st2.stat.exists == False
+  - name: delete tomcat-8.0 directory if present
+    file: path=/tomcat/tomcat-8.0 state=absent
 
-    - name: Change ownership of Tomcat installation
-      file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat state=directory recurse=yes
-      
-    - name: Change ownership of Tomcat installation
-      file: path={{ service_config }}/tomcat.service owner=root group=root mode=0755
-      
-    - name: reload systemctl
-      command: systemctl daemon-reload
+  - name: rename apache-tomcat to tomcat-8.0
+    command: mv /tomcat/apache-tomcat-8.0.32 /tomcat/tomcat-8.0
 
-    - name: Enable systemctl
-      command: systemctl enable tomcat
+  - name: change apache-tomcat-8 ownership to tomcat-8
+    file: path=/tomcat owner=tomcat group=tomcat mode=0755 recurse=yes
 
-    - name: Start systemctl
-      command: systemctl start tomcat
+  - name: copy tomcat.service to systemd
+    copy: src=roles/tomcat/files/tomcat.service dest=/etc/systemd/system owner=root group=root mode=0755
+
+  - name: Reload systemd-system service directory
+    command: systemctl daemon-reload
+
+  - name: start Tomcat as a service
+    command: systemctl start tomcat.service

@@ -1,16 +1,15 @@
-# create new
 [Unit]
-Description=Apache Tomcat
+Description=Setup Systemd script for tomcat in Tomcat Servlet Engine
 After=network.target
 
 [Service]
-Type=oneshot
-ExecStart=/data/tomcat/bin/startup.sh
-ExecStop=/data/tomcat/bin/shutdown.sh
-RemainAfterExit=yes
-User=tomcat
-Group=tomcat
+Type=forking
+GuessMainPID=yes
+Restart=always
+RestartSec=5
+ExecStart=/tomcat/tomcat-8.0/bin/startup.sh start
+ExecStop=/tomcat/tomcat-8.0/bin/shutdown.sh stop
 
 [Install]
 WantedBy=multi-user.target
-
+Alias=tomcat.service

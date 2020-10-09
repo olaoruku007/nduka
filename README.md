@@ -1,2 +1,1 @@
-# tomcat
-tomcat_setup
+# tomcat7

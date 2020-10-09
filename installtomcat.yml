@@ -1,7 +1,6 @@
-#Tomcat Installation & Configuration
 ---
-- hosts: all
+- hosts: localhost 
+  remote_user: ansible
   become: yes
   roles:
      - tomcat
-     - jenkins
