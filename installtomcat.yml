@@ -1,6 +1,6 @@
 ---
-- hosts: localhost 
-  remote_user: ansible
+- hosts: all
+  remote_user: root
   become: yes
   roles:
      - tomcat
