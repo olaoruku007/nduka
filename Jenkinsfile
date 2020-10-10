@@ -8,7 +8,7 @@ pipeline {
             }
             stage('run ansible playbook'){
                    steps{
-	           ansiblePlaybook become: true, becomeUser: 'ansible', credentialsId: '517a203b-413f-4f86-8d07-9118c86178d0', installation: 'ansible2', inventory: 'hosts', playbook: 'installtomcat.yml'
+	           ansiblePlaybook become: true, credentialsId: '806d90a3-cf7e-4daa-9dc0-97e49b354cfa', installation: 'ansible2', inventory: 'hosts', playbook: 'installtomcat.yml'
                     }
             }
      }
