@@ -10,7 +10,7 @@
     user: name=tomcat group=wheel state=present
 
   - name: Create tomcat directory in root
-    file: path=/tomcat owner=tomcat group=tomcat state=directory mode=0755
+    file: path=/tomcat owner=tomcat group=tomcat state=directory mode=0777
 
   - name: download tomcat
     get_url: 
