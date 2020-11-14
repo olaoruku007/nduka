@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages{
+            stage('SCM Checkout'){
+                   steps{
+	           git 'https://github.com/nduka145/tomcat8.git'
+                    }
+            }
+            stage('run playbook'){
+                   steps{
+	           ansiblePlaybook become: true, credentialsId: '71f66078-6a56-4dea-bd2c-8db22871d338', installation: 'ansible2', inventory: 'hosts', playbook: 'installtomcat.yml', sudoUser: 'ansible'
+                    }
+            }
+     }
+}
