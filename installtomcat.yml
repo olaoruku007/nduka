@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: dev
   remote_user: ansible
   become: yes
   roles:
