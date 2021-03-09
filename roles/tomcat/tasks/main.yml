@@ -47,9 +47,3 @@
       state: started
       enabled: yes
       daemon_reload: yes
-
-#  - name: Reload systemd-system service directory
-#    command: systemctl daemon-reload
-
-#  - name: start Tomcat as a service
-#    command: systemctl start tomcat.service
