@@ -1,15 +1,22 @@
 [Unit]
-Description=Setup Systemd script for tomcat in Tomcat Servlet Engine
-After=network.target
+Description=Apache Tomcat Web Application Container
+After=syslog.target network.target
 
 [Service]
 Type=forking
-GuessMainPID=yes
-Restart=always
-RestartSec=5
-ExecStart=/tomcat/tomcat-8.0/bin/startup.sh start
-ExecStop=/tomcat/tomcat-8.0/bin/shutdown.sh stop
+
+Environment=JAVA_HOME=/usr/lib/jvm/jre
+Environment=CATALINA_PID=/tomcat/tomcat-8.0/temp/tomcat.pid
+Environment=CATALINA_HOME=/tomcat/tomcat-8.0
+Environment=CATALINA_BASE=/tomcat/tomcat-8.0
+Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+ExecStart=/tomcat/tomcat-8.0/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+
+User=tomcat
+Group=tomcat
 
 [Install]
 WantedBy=multi-user.target
-Alias=tomcat.service

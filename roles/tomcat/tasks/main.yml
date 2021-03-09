@@ -41,8 +41,15 @@
   - name: copy tomcat.service to systemd
     copy: src=roles/tomcat/files/tomcat.service dest=/etc/systemd/system owner=root group=root mode=0755
 
-  - name: Reload systemd-system service directory
-    command: systemctl daemon-reload
+  - name: start tomcat service
+    systemd:
+      name: tomcat
+      state: started
+      enabled: yes
+      daemon_reload: yes
 
-  - name: start Tomcat as a service
-    command: systemctl start tomcat.service
+#  - name: Reload systemd-system service directory
+#    command: systemctl daemon-reload
+
+#  - name: start Tomcat as a service
+#    command: systemctl start tomcat.service
