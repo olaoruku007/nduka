@@ -1,0 +1,9 @@
+cat /proc/sys/user/max_user_namespaces
+
+sudo sysctl user.max_user_namespaces=15000
+
+cat /proc/sys/user/max_user_namespaces
+
+sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 <user-Name>
+
+grep <UserName> /etc/subuid /etc/subgid

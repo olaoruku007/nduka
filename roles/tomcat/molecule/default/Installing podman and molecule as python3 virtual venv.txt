@@ -1,0 +1,17 @@
+Step1 #Install required binary files
+
+rpm -ivh http://rpmfind.net/linux/epel/7/x86_64/Packages/e/epel-release-7-13.noarch.rpm  #For rel7 
+yum install -y gcc python3 openssl-devel git podman ansible python3-devel libselinux-python3
+python3 -m venv  andy
+source andy/bin/activate
+pip3 install --upgrade pip
+python3 -m pip install ansible testinfra molecule podman python-vagrant ansible-lint flake8 molecule[lint,ansible,podman] jmespath
+
+Step2
+git clone 
+cd-to-your-ansible-role-directory
+
+Step3
+molecule init role tomcat --driver-name podman #for New Role
+
+molecule init scenario -r tomcat --driver-name podman    #For Existing Role
