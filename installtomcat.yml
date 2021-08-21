@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: dev
   remote_user: ansible
   become: yes
   tasks:
