@@ -2,5 +2,10 @@
 - hosts: localhost
   remote_user: ansible
   become: yes
-  roles:
-     - tomcat
+  tasks:
+    - name: create file
+      file:
+        name: /home/ec2-user/jenkins.txt
+        state: touch
+ # roles:
+ #    - tomcat
