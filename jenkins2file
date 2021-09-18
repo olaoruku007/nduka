@@ -1,0 +1,15 @@
+pipeline {
+  agent any
+  stages {
+    stage('Git checkout'){
+      steps{
+        git 'https://github.com/nduka145/tomcat8.git'
+      }
+    }
+    stage('Execute Ansible Playbook'){
+      steps{
+        ansiblePlaybook credentialsId: 'ca834448-ffc2-4c06-97df-dc3b4ceda0fd', installation: 'ansible2', inventory: '/root/.jenkins/workspace/tomcat8/hosts', playbook: '/root/.jenkins/workspace/tomcat8/installtomcat.yml'
+      }
+    }
+  }
+}
