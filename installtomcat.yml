@@ -1,6 +1,6 @@
 ---
-- hosts: localhost
-  remote_user: ansible
+- hosts: all
+  remote_user: centos
   become: yes
   roles:
     - tomcat
