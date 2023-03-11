@@ -1,6 +1,5 @@
 ---
-- hosts: all
-  remote_user: centos
+- hosts: Dev
   become: yes
   roles:
     - tomcat
