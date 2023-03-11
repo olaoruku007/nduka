@@ -1,5 +1,5 @@
 ---
-- hosts: Dev
+- hosts: dev
   become: yes
   roles:
     - tomcat
